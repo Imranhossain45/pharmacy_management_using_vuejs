@@ -11,5 +11,5 @@ import router from './router'
 
 const app = createApp(App);
 app.use(router);
-// app.config.globalProperties.$eventBus = eventBus;
+
 app.mount('#app')

@@ -224,7 +224,6 @@ export default {
 					this.getAllVendors();
 				})
 				.catch(err => {
-					console.log(err);
 					showErrorMessage(err);
 				})
 				.finally(() => {
