@@ -17,11 +17,15 @@
 <script>
 import TheSidebar from '../components/TheSidebar.vue';
 import TheHeader from '../components/TheHeader.vue';
+import { setPrivateHeaders } from '../service/axiosInstance';
 import { RouterView } from 'vue-router';
 export default {
   components: {
     TheSidebar,
     TheHeader,
+  },
+  mounted(){
+    setPrivateHeaders();
   }
 }
 </script>

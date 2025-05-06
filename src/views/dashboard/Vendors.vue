@@ -102,6 +102,7 @@ import axios from "axios";
 import TheButton from "../../components/TheButton.vue";
 import TheModal from "../../components/TheModal.vue";
 import { showErrorMessage,showSuccessMessage } from "../../utils/functions";
+import privateService from "../../service/privateService";
 
 export default {
 	components: {
@@ -124,7 +125,8 @@ export default {
 		editing: false,
 	}),
 	mounted() {
-		this.getAllVendors();
+		setTimeout(this.getAllVendors , 100)
+		// this.getAllVendors();
 	},
 	methods: {
 		resetForm() {
@@ -135,15 +137,7 @@ export default {
 		},
 		getAllVendors() {
 			this.gettingVendors = true;
-			axios
-				.get(
-					"https://api.rimoned.com/api/pharmacy-management/v1/private/vendor",
-					{
-						headers: {
-							authorization: localStorage.getItem("accessToken"),
-						},
-					}
-				)
+		privateService.getVendors()
 				.then((res) => {
 					this.vendors = res.data;
 				})
@@ -156,17 +150,8 @@ export default {
 		},
 		addNew() {
 			this.adding = true;
-			console.log(this.newVendor);
-			axios
-				.post(
-					"https://api.rimoned.com/api/pharmacy-management/v1/private/vendor",
-					this.newVendor,
-					{
-						headers: {
-							authorization: localStorage.getItem("accessToken"),
-						},
-					}
-				)
+		
+			privateService.addVendor(this.newVendor)
 				.then((res) => {
 					showSuccessMessage(res);
 					this.addModal = false;
@@ -183,16 +168,7 @@ export default {
 		},
 		deleteVendor() {
 			this.deleting = true;
-			axios
-				.delete(
-					"https://api.rimoned.com/api/pharmacy-management/v1/private/vendor/" +
-						this.selectedVendor._id,
-					{
-						headers: {
-							authorization: localStorage.getItem("accessToken"),
-						},
-					}
-				)
+			privateService.deleteVendors(this.selectedVendor._id)
 				.then((res) => {
 					showSuccessMessage(res);
 					this.deleteModal = false;
@@ -207,17 +183,8 @@ export default {
 		},
 		editVendor() {
 			this.editing = true;
-			axios
-				.put(
-					"https://api.rimoned.com/api/pharmacy-management/v1/private/vendor/" +
-					this.selectedVendor._id,
-						this.selectedVendor,
-					{
-						headers: {
-							authorization: localStorage.getItem("accessToken"),
-						},
-					}
-				)
+			privateService.editVendors(
+			this.selectedVendor)
 				.then((res) => {
 					showSuccessMessage(res);
 					this.editModal = false;
